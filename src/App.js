@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import List from './list';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <List storage={localStorage.getItem('bookmark')}/  >
     </div>
   );
 }
