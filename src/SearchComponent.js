@@ -1,24 +1,22 @@
-import React from "react";
+import { useState, useEffect } from "react";
 
-export default class searchComponent extends React.Component{
-    constructor(props) {
-        super(props)
-        this.state={query:''}
-    }
-    search=(event)=>{
-        console.log(event.currentTarget.value)
-        this.setState({query:event.currentTarget.value.toLowerCase()})
-        this.props.search(event.currentTarget.value.toLowerCase())
-        console.log(this.props)
-    }
-    render(){
-        return (
-            <div className='searchBar'>
-                <label htmlFor="search">🔍Search:</label>
-            <input className='search' name='search' type="text" value={this.state.query} placeholder='click here to search' onChange={this.search} />
-            {this.state.query!==''?<h3>Search result :{this.state.query}</h3>:<p></p>}
-            </div>
-        )
-        }
-
+export default function SearchComponent(props) {
+  const [query, setQuery] = useState("");
+    useEffect(()=>{
+        props.search(query)
+    },[query])
+  return (
+    <div className="searchBar">
+      <label htmlFor="search">🔍Search:</label>
+      <input
+        className="search"
+        name="search"
+        type="text"
+        value={query}
+        placeholder="click here to search"
+        onChange={(event) => setQuery(event.target.value.toLowerCase())}
+      />
+      {query !== "" ? <h3 className='query'>Search result :{query}</h3> : <p></p>}
+    </div>
+  );
 }
