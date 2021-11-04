@@ -1,5 +1,14 @@
+
+
 .App {
   text-align: center;
+  height: 100vh;
+  background: url('./background.jpg') center;
+  
+}
+
+table{
+  background-color: white;
 }
 
 .App-logo {
@@ -35,4 +44,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.error{
+  border: solid red;
+}
+.warning{
+  color: red;
+}
+
+.addURLButton{
+display: flex;
+justify-content: left;
+margin-bottom: 10px;
+}
+.search{
+width: 25%;
+margin-right: 4.5rem;
+height: 5vh;
+}
+.searchBar{
+text-align: end;
+}
+.tag{
+  margin: 5px;
 }
