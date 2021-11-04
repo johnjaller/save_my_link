@@ -92,7 +92,6 @@ this.setState({tag:tagList})
    <label htmlFor="">tag</label>
    <br />
    <input type="text" value={this.state.tag.join(',')} onChange={this.changeTag} />
-   <Button>Add tag</Button>
     </ModalBody>
     <ModalFooter>
     <Button type='submit' color='primary'>Add bookmark</Button>
