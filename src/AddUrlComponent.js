@@ -1,14 +1,15 @@
-import React from "react";
+import React,{useState} from "react";
 import './App.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {Button,Modal,ModalBody,ModalHeader,ModalFooter} from 'reactstrap'
-export default class AddUrl extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={modal:false,urlStatus:'',name:'',url:'',tag:[]}
-
-  }
-isValidHttpUrl(string) {
+export default function AddUrl (props) {
+  
+  const[modal,setModal]=useState(false)
+  const[urlStatus,setUrlstatus]=useState('')
+  const[name,setName]=useState('')
+  const[url,setUrl]=useState('')
+  const[tag,setTag]=useState([])
+const isValidHttpUrl=(string)=> {
     let url;
     
     try {
@@ -20,83 +21,82 @@ isValidHttpUrl(string) {
     return url.protocol === "http:" || url.protocol === "https:";
   }
   
-  addBookmark=(event)=>{
+  const addBookmark=(event)=>{
       event.preventDefault()
-      if(this.isValidHttpUrl(this.state.url))
+      if(isValidHttpUrl(url))
       {
-      let bookmark=this.state
-      delete bookmark['modal']
-      delete bookmark['urlStatus']
-      this.props.addURL(bookmark)
-      console.log(this.props)
-      this.setState({modal:false,name:'',url:'',tag:[]})
+    
+      props.addURL({name:name,url:url,tag:tag})
+      console.log(props)
+      setModal(false)
+      setName('')
+      setUrl('')
+      setTag([])
       }else{
           return false
       }
   }
-modalToggle=()=>{
-    if(!this.state.modal)
+const modalToggle=()=>{
+    if(modal)
     {
-this.setState({modal:true})
+      setModal(false)
+
 }else{
     
-    this.setState({modal:false})
-    }
+    setModal(true)
+    
 }
-changeName=(event)=>{
-this.setState({name:event.currentTarget.value})
-}
-changeURL=(event)=>{
-    console.log(this.isValidHttpUrl(event.currentTarget.value))
-    if(this.isValidHttpUrl(event.currentTarget.value))
-    {
-        this.setState({urlStatus:''})
-    }else{
-        this.setState({urlStatus:'error'})
-        
-    }
-    this.setState({url:event.currentTarget.value})
-    console.log(this.state.url)
-}
-changeTag=(event)=>{
-console.log(event.target.value)
-let tagList=event.target.value.split(',')
-this.setState({tag:tagList})
 }
 
-  render() {
+const changeURL=(event)=>{
+    console.log(isValidHttpUrl(event.currentTarget.value))
+    if(isValidHttpUrl(event.currentTarget.value))
+    {
+        setUrlstatus('')
+    }else{
+        setUrlstatus('error')
+        
+    }
+    setUrl(event.currentTarget.value)
+}
+const changeTag=(event)=>{
+console.log(event.target.value)
+let tagList=event.target.value.split(',')
+setTag(tagList)
+}
+
+  
     return (
     
       <div>
 <Button
     color="success"
-    onClick={this.modalToggle}
+    onClick={modalToggle}
   >
     Add Link
   </Button>
-  <Modal isOpen={this.state.modal} toggle={this.modalToggle}>
-    <ModalHeader toggle={this.modalToggle}>
+  <Modal isOpen={modal} toggle={modalToggle}>
+    <ModalHeader toggle={modalToggle}>
       Add My Link
     </ModalHeader>
-    <form action="" onSubmit={this.addBookmark}>
+    <form action="" onSubmit={addBookmark}>
     <ModalBody>
          <label htmlFor="">Name</label>
          <br />
-         <input type="text" placeholder='Name' value={this.state.name} onChange={this.changeName}/>
+         <input type="text" placeholder='Name' value={name} onChange={(event)=>setName(event.target.value)}/>
          <br />
      <label htmlFor="">My URL</label>
      <br />
-   <input className={this.state.urlStatus} type="text" placeholder="https://example.com" value={this.state.url} name='url' onChange={this.changeURL}/>
-   {this.state.urlStatus==='error'?<div className='warning'>Your URL should be 'http://example.com'</div>:null}
+   <input className={urlStatus} type="text" placeholder="https://example.com" value={url} name='url' onChange={changeURL}/>
+   {urlStatus==='error'?<div className='warning'>Your URL should be 'http://example.com'</div>:null}
    <br />
    <label htmlFor="">tag</label>
    <br />
-   <input type="text" value={this.state.tag.join(',')} onChange={this.changeTag} />
-   <Button>Add tag</Button>
+   <input type="text" value={tag.join(',')} onChange={changeTag} />
     </ModalBody>
     <ModalFooter>
     <Button type='submit' color='primary'>Add bookmark</Button>
-      <Button onClick={this.modalToggle}>
+      <Button onClick={modalToggle}>
         Cancel
       </Button>
     </ModalFooter>
@@ -106,5 +106,5 @@ this.setState({tag:tagList})
        
       </div>
     );
-  }
+  
 }

@@ -1,57 +1,53 @@
-import React from "react";
+import React,{useState} from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Button, Badge, Table, Container, Row, Col } from "reactstrap";
 import AddUrl from "./AddUrlComponent";
 import SearchComponent from "./SearchComponent";
-export default class listComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { bookmark: this.props.storage || [], query: "" };
-  }
-  removeLink = (props) => {
-    console.log(props.index);
-    this.state.bookmark.splice(props.index, 1);
-    console.log(this.state.bookmark);
-    localStorage.setItem("bookmark", JSON.stringify(this.state.bookmark));
-    this.setState({
-      bookmark: JSON.parse(localStorage.getItem("bookmark")) || [],
-    });
+export default function ListComponent (props) {
+ 
+  const[bookmark,setBookmark]=useState(props.storage||[])
+  const[query,setQuery]=useState('')
+  const removeLink = (prop) => {
+    console.log(prop.index);
+    bookmark.splice(prop.index, 1);
+    localStorage.setItem("bookmark", JSON.stringify(bookmark));
+    setBookmark(JSON.parse(localStorage.getItem('bookmark')))
   };
 
-  filterLink = (queryString) => {
+  const filterLink = (queryString) => {
     console.log(queryString);
-    this.setState({ query: queryString });
-    let result = this.state.bookmark.filter(
+    setQuery(queryString)
+    let result = bookmark.filter(
       (item) =>
-        item.name.toLowerCase().includes(this.state.query) ||
-        item.url.toLowerCase().includes(this.state.query) ||
+        item.name.toLowerCase().includes(query) ||
+        item.url.toLowerCase().includes(query) ||
         item.tag
-          .map((tagName) => tagName.toLowerCase().includes(this.state.query))
+          .map((tagName) => tagName.toLowerCase().includes(query))
           .includes(true)
     );
     if (queryString === "") {
-      this.setState({ bookmark: JSON.parse(localStorage.getItem("bookmark")) });
+    setBookmark(JSON.parse(localStorage.getItem('bookmark')))
     } else {
       console.log(result);
-      this.setState({ bookmark: result });
+      setBookmark(result)
     }
   };
-  addLink = (props) => {
-    console.log(props);
-    this.state.bookmark.push(props);
-    console.log(this.state.bookmark);
-    localStorage.setItem("bookmark", JSON.stringify(this.state.bookmark));
-    this.setState({ bookmark: JSON.parse(localStorage.getItem("bookmark")) });
+  const addLink = (prop) => {
+    console.log(prop);
+    bookmark.push(prop);
+    console.log(bookmark);
+    localStorage.setItem("bookmark", JSON.stringify(bookmark));
+    setBookmark(JSON.parse(localStorage.getItem('bookmark')))
   };
-  render() {
+  
     return (
       <div className="home">
         <h1>My private bookmark</h1>
-        <SearchComponent search={this.filterLink} />
+        <SearchComponent search={filterLink} />
         <Container>
           <Row>
             <Col lg="2" className="addURLButton">
-              <AddUrl addURL={this.addLink} />
+              <AddUrl addURL={addLink} />
             </Col>
             <Col lg="10">
               <Table>
@@ -64,7 +60,7 @@ export default class listComponent extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.bookmark.map((item, index) => {
+                  {bookmark.map((item, index) => {
                     return (
                       <tr key={index}>
                         <td>{item.name}</td>
@@ -92,7 +88,7 @@ export default class listComponent extends React.Component {
                           <td>no tag</td>
                         )}
                         <td>
-                          <Button onClick={() => this.removeLink({ index })}>
+                          <Button onClick={() =>removeLink({ index })}>
                             Delete
                           </Button>
                         </td>
@@ -106,5 +102,5 @@ export default class listComponent extends React.Component {
         </Container>
       </div>
     );
-  }
+  
 }
