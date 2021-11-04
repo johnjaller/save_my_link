@@ -16,7 +16,7 @@ export default class searchComponent extends React.Component{
             <div className='searchBar'>
                 <label htmlFor="search">🔍Search:</label>
             <input className='search' name='search' type="text" value={this.state.query} placeholder='click here to search' onChange={this.search} />
-            {this.state.query!==''?<h3>Search result :{this.state.query}</h3>:<p></p>}
+            {this.state.query!==''?<h3 className='query'>Search result :{this.state.query}</h3>:<p></p>}
             </div>
         )
         }
