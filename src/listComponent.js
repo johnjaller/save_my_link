@@ -98,7 +98,7 @@ export default class listComponent extends React.Component {
                         </td>
                       </tr>
                     );
-                  }):<p>There are no link yet</p>}
+                  }):<p>There are no link</p>}
                 </tbody>
               </Table>
             </Col>
