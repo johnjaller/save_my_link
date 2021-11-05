@@ -60,7 +60,7 @@ export default function ListComponent (props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {bookmark.map((item, index) => {
+                  {bookmark&&bookmark.length>0?bookmark.map((item, index) => {
                     return (
                       <tr key={index}>
                         <td>{item.name}</td>
@@ -94,7 +94,7 @@ export default function ListComponent (props) {
                         </td>
                       </tr>
                     );
-                  })}
+                  }):<p>There are no links yet</p>}
                 </tbody>
               </Table>
             </Col>
