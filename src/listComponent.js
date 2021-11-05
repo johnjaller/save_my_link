@@ -94,7 +94,7 @@ export default function ListComponent (props) {
                         </td>
                       </tr>
                     );
-                  }):<p>There are no links yet</p>}
+                  }):<p>There are no link</p>}
                 </tbody>
               </Table>
             </Col>
